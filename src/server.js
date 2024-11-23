@@ -6,10 +6,17 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
+// CORS Middleware
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
 // Socket.io setup with CORS
 const io = socketIO(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || "*",
+        origin: process.env.FRONTEND_URL || "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -46,7 +53,6 @@ const boatState = {
 };
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // Routes
